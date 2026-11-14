@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Gran Aventura de los Gigantes</title>
+<style>
+:root{--navy:#17324d;--blue:#245778;--cream:#fff8eb;--gold:#f4c45e;--coral:#e97858;--ink:#203044;--muted:#64748b;--green:#26765d}
+*{box-sizing:border-box}body{margin:0;background:#f5f0e7;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button{font:inherit;cursor:pointer;border:0;border-radius:14px;padding:12px 16px;font-weight:750}
+button:focus-visible{outline:3px solid #f0a51a;outline-offset:3px}
+.top{background:var(--navy);color:white;padding:22px max(18px,calc((100% - 1120px)/2));}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.04em}
+.brand-mark{background:var(--gold);color:var(--navy);width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:24px}
+.hero{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center;padding:34px 18px 42px}
+.hero h1{font-size:clamp(2.3rem,5vw,4.6rem);line-height:.98;margin:12px 0;color:var(--navy)}
+.hero p{font-size:1.08rem;line-height:1.55;color:#43536a;max-width:580px}
+.kicker{color:#a34e32;text-transform:uppercase;font-weight:900;letter-spacing:.12em;font-size:.78rem}
+.hero-photo{height:330px;width:100%;object-fit:cover;border-radius:28px;box-shadow:0 18px 40px #20304425;background:#d9e2e8}
+.hero-photo-credit{font-size:.72rem;color:var(--muted);margin-top:7px}
+main{max-width:1120px;margin:auto;padding:0 18px 48px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:0 0 18px}
+.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:white;border:1px solid #e7dfd1;border-radius:13px;padding:9px 13px;font-weight:800}
+.region-row{display:flex;gap:8px;overflow:auto;padding:4px 0 14px}
+.region{white-space:nowrap;background:white;color:var(--navy);border:1px solid #d9dfe5}.region.active{background:var(--navy);color:white}
+.section-title{font-size:1.55rem;margin:18px 0 12px;color:var(--navy)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.game-card{background:white;border:1px solid #e9e1d5;border-radius:20px;padding:18px;text-align:left;min-height:174px;box-shadow:0 5px 16px #2030440a;transition:.15s}
+.game-card:hover{transform:translateY(-3px);box-shadow:0 12px 24px #20304414}
+.game-icon{font-size:2rem}.game-card h3{margin:10px 0 5px;color:var(--navy)}.game-card p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.4}
+.panel{display:none;background:white;border:1px solid #e8dfd1;border-radius:24px;padding:clamp(18px,4vw,32px);margin-top:22px;box-shadow:0 10px 28px #2030440c}
+.panel.show{display:block}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.back{background:#edf1f5;color:var(--navy)}.primary{background:var(--coral);color:white}.secondary{background:var(--navy);color:white}.soft{background:#fff0cf;color:#65420b}
+.question{font-size:clamp(1.25rem,3vw,1.8rem);font-weight:850;color:var(--navy);margin:22px 0 16px}
+.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.answer{background:#f1f5f8;color:var(--ink);text-align:left;border:2px solid transparent}.answer:hover{border-color:#7ca7c2}
+.answer.correct{background:#e0f3e9;border-color:#3c9b69}.answer.wrong{background:#ffebe6;border-color:#d76c53}
+.feedback{min-height:30px;font-weight:800;margin:14px 0}.muted{color:var(--muted)}
+.photo-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.8fr);gap:20px;align-items:center}
+.photo-card img{width:100%;height:290px;object-fit:cover;border-radius:18px;background:#e5e7eb}
+.big-number{font-size:2rem;font-weight:950;color:var(--coral)}
+.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:650px}
+.memory-card{padding:0;overflow:hidden;background:#e9eef2;aspect-ratio:1/1;border:3px solid transparent}
+.memory-card img{width:100%;height:100%;object-fit:cover;display:block}
+.memory-card.revealed,.memory-card.matched{border-color:var(--gold)}
+.riddle-box{background:#fff7e8;border-radius:18px;padding:22px;font-size:1.2rem;font-weight:750}
+.wordbank{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.word{background:#edf1f5;color:var(--navy)}
+.letter-grid{display:grid;grid-template-columns:repeat(8,38px);gap:5px;margin:18px 0}
+.letter{padding:8px 0;background:#edf1f5;color:var(--navy);border-radius:8px}
+.letter.selected{background:var(--gold)}
+.badges{display:flex;gap:8px;flex-wrap:wrap}.badge{background:#fff1c9;color:#765016;border-radius:999px;padding:8px 12px;font-weight:800}
+.photo-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.photo-gallery figure{margin:0;background:#f5f7f8;border-radius:16px;overflow:hidden}
+.photo-gallery img{width:100%;height:170px;object-fit:cover;display:block}
+.photo-gallery figcaption{padding:10px;font-size:.82rem;font-weight:750}
+.notice{background:#fff6dc;border-left:4px solid var(--gold);padding:12px 14px;border-radius:8px;color:#634c21;line-height:1.5}
+footer{background:var(--navy);color:#eaf1f7;padding:28px 18px;margin-top:28px}
+.footer-inner{max-width:1120px;margin:auto;font-size:.85rem;line-height:1.6}
+footer a{color:#ffda86}
+.hidden{display:none!important}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr;padding-top:22px}.hero-photo{height:250px}.photo-gallery{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.answers{grid-template-columns:1fr}.photo-card{grid-template-columns:1fr}.memory-grid{grid-template-columns:repeat(3,1fr)}.letter-grid{grid-template-columns:repeat(8,minmax(25px,1fr))}.photo-gallery{grid-template-columns:1fr 1fr}.photo-gallery img{height:125px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="brand-mark">🎭</div><div>LA GRAN AVENTURA<br>DE LOS GIGANTES</div></div>
+</header>
+<section class="hero">
+  <div>
+    <div class="kicker">Un viaje festivo por España</div>
+    <h1>¿Cuánto sabes de gigantes y cabezudos?</h1>
+    <p>Explora comparsas reales, resuelve acertijos, encuentra parejas y consigue insignias. ¡Elige un minijuego y empieza la aventura!</p>
+    <button class="primary" onclick="document.getElementById('juegos').scrollIntoView({behavior:'smooth'})">Ver minijuegos ↓</button>
+  </div>
+  <div>
+    <img class="hero-photo" src="https://commons.wikimedia.org/wiki/Special:FilePath/Privilege_of_the_Union,_Pamplona_2026_(1).jpg" alt="Gigantes tradicionales en una celebración en Pamplona" onerror="this.src='https://commons.wikimedia.org/wiki/Special:FilePath/Ayuntamiento_de_Viana_en_fiestas.jpg'">
+    <div class="hero-photo-credit">Fotografía: Ganesha811 · Pamplona, 2026 · <a href="https://commons.wikimedia.org/wiki/File:Privilege_of_the_Union,_Pamplona_2026_(1).jpg" target="_blank" rel="noopener">fuente y licencia</a></div>
+  </div>
+</section>
+<main>
+  <div class="toolbar">
+    <div class="stats"><div class="stat">⭐ Puntos: <span id="score">0</span></div><div class="stat">🏅 Insignias: <span id="badgeCount">0</span></div></div>
+    <button class="soft" onclick="resetScore()">Reiniciar puntos</button>
+  </div>
+  <div class="section-title">Elige una zona para explorar</div>
+  <div class="region-row" id="regions">
+    <button class="region active" data-region="Todas">🇪🇸 Toda España</button>
+    <button class="region" data-region="Navarra">Navarra</button>
+    <button class="region" data-region="Cataluña">Cataluña</button>
+    <button class="region" data-region="La Rioja">La Rioja</button>
+    <button class="region" data-region="Cantabria">Cantabria</button>
+    <button class="region" data-region="Comunidad Valenciana">Comunidad Valenciana</button>
+    <button class="region" data-region="Aragón">Aragón</button>
+  </div>
+  <div id="juegos" class="section-title">Minijuegos</div>
+  <div class="grid" id="gameGrid">
+    <button class="game-card" onclick="startQuiz()"><div class="game-icon">🧠</div><h3>El gran trivial</h3><p>Preguntas sobre comparsas, personajes y tradiciones.</p></button>
+    <button class="game-card" onclick="startRiddles()"><div class="game-icon">🕵️</div><h3>Adivinanzas</h3><p>Lee las pistas y descubre la respuesta.</p></button>
+    <button class="game-card" onclick="startWho()"><div class="game-icon">📸</div><h3>¿De dónde son?</h3><p>Reconoce la procedencia de fotografías reales.</p></button>
+    <button class="game-card" onclick="startMemory()"><div class="game-icon">🧩</div><h3>Memory de gigantes</h3><p>Encuentra las parejas de imágenes.</p></button>
+    <button class="game-card" onclick="startWords()"><div class="game-icon">🔤</div><h3>Palabras escondidas</h3><p>Forma palabras de este mundo festivo.</p></button>
+    <button class="game-card" onclick="startSpeed()"><div class="game-icon">⚡</div><h3>Reto relámpago</h3><p>Responde todo lo que puedas en 45 segundos.</p></button>
+    <button class="game-card" onclick="showGallery()"><div class="game-icon">🗺️</div><h3>Explora las comparsas</h3><p>Descubre fotos y nombres de distintas localidades.</p></button>
+    <button class="game-card" onclick="startTrueFalse()"><div class="game-icon">✅</div><h3>¿Verdadero o falso?</h3><p>Comprueba cuánto sabes de la tradición.</p></button>
+  </div>
+
+  <section class="panel" id="panel">
+    <div class="panel-head"><div><div class="kicker" id="gameKicker">Minijuego</div><h2 id="gameTitle" style="margin:4px 0;color:var(--navy)">Juego</h2></div><button class="back" onclick="closeGame()">← Menú</button></div>
+    <div id="gameContent"></div>
+  </section>
+</main>
+<footer><div class="footer-inner">
+  <strong>Créditos de fotografías y licencias</strong><br>
+  Viana (Navarra): Jule_Berlin, CC BY 2.0 · <a href="https://commons.wikimedia.org/wiki/File:Ayuntamiento_de_Viana_en_fiestas.jpg" target="_blank" rel="noopener">ver fotografía</a>.<br>
+  Quintí, Peguera y capgrossos (Barcelona): Jordiferrer, CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Gegants_de_Sant_Josep_Calassanç,_Capgrossos_Barrufets_i_Capgròs_català.JPG" target="_blank" rel="noopener">ver fotografía</a>.<br>
+  Gegants i capgrossos de Granollers: Esteve Palet, CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:Roca_Umbert_13.jpg" target="_blank" rel="noopener">ver fotografía</a>.<br>
+  Pamplona, Privilegio de la Unión 2026: Ganesha811, CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:Privilege_of_the_Union,_Pamplona_2026_(1).jpg" target="_blank" rel="noopener">ver fotografía</a>.<br>
+  Las fotos se muestran desde Wikimedia Commons. Antes de publicar el juego, revisa las condiciones de cada licencia y conserva los créditos. El catálogo de Cantabria y Comunidad Valenciana queda preparado para añadir fotografías verificadas con permiso de uso.
+</div></footer>
+<script>
+const photos=[
+ {name:"Comparsa de Viana",place:"Viana, Navarra",region:"Navarra",src:"https://commons.wikimedia.org/wiki/Special:FilePath/Ayuntamiento_de_Viana_en_fiestas.jpg",credit:"Jule_Berlin · CC BY 2.0",url:"https://commons.wikimedia.org/wiki/File:Ayuntamiento_de_Viana_en_fiestas.jpg"},
+ {name:"Quintí, Peguera y capgrossos",place:"Barcelona, Cataluña",region:"Cataluña",src:"https://commons.wikimedia.org/wiki/Special:FilePath/Gegants_de_Sant_Josep_Calassanç,_Capgrossos_Barrufets_i_Capgròs_català.JPG",credit:"Jordiferrer · CC BY-SA 3.0",url:"https://commons.wikimedia.org/wiki/File:Gegants_de_Sant_Josep_Calassanç,_Capgrossos_Barrufets_i_Capgròs_català.JPG"},
+ {name:"Gegants i capgrossos",place:"Granollers, Cataluña",region:"Cataluña",src:"https://commons.wikimedia.org/wiki/Special:FilePath/Roca_Umbert_13.jpg",credit:"Esteve Palet · CC BY-SA 4.0",url:"https://commons.wikimedia.org/wiki/File:Roca_Umbert_13.jpg"},
+ {name:"Gigantes de Pamplona",place:"Pamplona, Navarra",region:"Navarra",src:"https://commons.wikimedia.org/wiki/Special:FilePath/Privilege_of_the_Union,_Pamplona_2026_(1).jpg",credit:"Ganesha811 · CC BY-SA 4.0",url:"https://commons.wikimedia.org/wiki/File:Privilege_of_the_Union,_Pamplona_2026_(1).jpg"}
+];
+const questions=[
+ {q:"¿Cómo se llaman en catalán los gigantes tradicionales?",a:["Gegants","Kilikis","Zaldikos","Cabezones"],c:0,why:"En catalán se utiliza gegants; capgrossos para los cabezudos."},
+ {q:"¿Cómo se llama en Navarra al personaje cabezudo que forma parte de algunas comparsas?",a:["Capgròs","KilikI","Nans","Caballito"],c:1,why:"En Navarra se usa kiliki para un tipo de personaje de la comparsa."},
+ {q:"¿Qué ciudad celebra sus fiestas grandes con la comparsa en San Fermín?",a:["Pamplona","Granollers","Santander","Valencia"],c:0,why:"La Comparsa de Gigantes y Cabezudos de Pamplona sale durante San Fermín."},
+ {q:"¿Qué instrumento puede acompañar los bailes de gigantes?",a:["Gaita","Piano de cola","Arpa eléctrica","Saxofón barítono"],c:0,why:"La gaita es uno de los instrumentos tradicionales que acompañan a muchas comparsas."},
+ {q:"¿Qué nombre reciben los cabezudos en catalán?",a:["Capgrossos","Zaldikos","Gaiteros","Gigantillos"],c:0,why:"Capgrossos significa cabezudos en catalán."},
+ {q:"¿En qué ciudad está documentada una tradición de comparsa declarada Bien de Interés Cultural Inmaterial?",a:["Zaragoza","Granollers","Viana","Pamplona"],c:0,why:"La tradición de comparsas de Zaragoza fue declarada BIC inmaterial en 2024."},
+ {q:"¿Qué persona va dentro de un gigante para hacerlo caminar y bailar?",a:["Un porteador","Un músico sentado","Un titiritero desde lejos","Nadie"],c:0,why:"Una persona porteadora sostiene y mueve la estructura desde dentro."},
+ {q:"¿Qué figuras acompañan a los gigantes en algunas comparsas navarras?",a:["Zaldikos","Dragones de agua","Marionetas de hilo","Bailarinas de hielo"],c:0,why:"Los zaldikos representan figuras de caballo y forman parte de algunas comparsas navarras."}
+];
+const riddles=[
+ {q:"Soy muy alto, llevo traje y bailo por las calles al ritmo de la música. ¿Quién soy?",a:"un gigante",alts:["gigante"]},
+ {q:"Tengo una cabeza muy grande y una cara que llama la atención. ¿Quién soy?",a:"un cabezudo",alts:["cabezudo","capgròs","capgross"]},
+ {q:"En Cataluña me llaman «gegant». ¿Qué soy?",a:"un gigante",alts:["gigante","gegant"]},
+ {q:"En algunas comparsas navarras soy un personaje con aspecto de caballo. ¿Quién soy?",a:"un zaldiko",alts:["zaldiko"]},
+ {q:"Acompaño los pasos y giros de la comparsa; puedo sonar con una melodía tradicional. ¿Qué soy?",a:"la música",alts:["musica","la musica"]}
+];
+let score=0,badges=new Set(),region="Todas",quizIndex=0,quizSet=[],riddleIndex=0,whoIndex=0,speedTimer=null,speedLeft=45,speedPoints=0,wordIndex=0;
+const $=id=>document.getElementById(id);
+function addPoints(n){score+=n;$("score").textContent=score}
+function award(name){badges.add(name);$("badgeCount").textContent=badges.size}
+function resetScore(){score=0;badges.clear();$("score").textContent=0;$("badgeCount").textContent=0}
+function panel(title,kicker="Minijuego"){ $("gameTitle").textContent=title;$("gameKicker").textContent=kicker;$("panel").classList.add("show");$("panel").scrollIntoView({behavior:"smooth",block:"start"});$("gameContent").innerHTML=""}
+function closeGame(){if(speedTimer)clearInterval(speedTimer);$("panel").classList.remove("show")}
+document.querySelectorAll(".region").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".region").forEach(x=>x.classList.remove("active"));b.classList.add("active");region=b.dataset.region;document.querySelectorAll(".game-card").forEach(c=>c.style.opacity="1")}));
+function startQuiz(){quizIndex=0;quizSet=[...questions].sort(()=>Math.random()-.5);panel("El gran trivial","8 preguntas · 10 puntos por acierto");showQuizQ()}
+function showQuizQ(){if(quizIndex>=quizSet.length){$("gameContent").innerHTML=`<h3>¡Trivial terminado!</h3><p>Has conseguido terminar las preguntas.</p><button class="primary" onclick="startQuiz()">Volver a jugar</button>`;award("Cerebro gigante");return}
+let q=quizSet[quizIndex];$("gameContent").innerHTML=`<div class="muted">Pregunta ${quizIndex+1} de ${quizSet.length}</div><div class="question">${q.q}</div><div class="answers">${q.a.map((a,i)=>`<button class="answer" onclick="answerQuiz(${i})">${a}</button>`).join("")}</div><div class="feedback" id="feedback"></div>`}
+function answerQuiz(i){let q=quizSet[quizIndex],buttons=document.querySelectorAll(".answer");buttons.forEach((b,j)=>{b.disabled=true;if(j===q.c)b.classList.add("correct");else if(j===i)b.classList.add("wrong")});let ok=i===q.c;if(ok)addPoints(10);$("feedback").textContent=(ok?"¡Correcto! +10 ⭐ ":"¡Casi! ")+q.why;setTimeout(()=>{quizIndex++;showQuizQ()},1500)}
+function startRiddles(){riddleIndex=0;panel("Adivinanzas","Lee la pista y escribe la respuesta");showRiddle()}
+function showRiddle(){if(riddleIndex>=riddles.length){$("gameContent").innerHTML="<h3>¡Has resuelto todas las adivinanzas!</h3><button class='primary' onclick='startRiddles()'>Repetir</button>";award("Detective cabezudo");return}let r=riddles[riddleIndex];$("gameContent").innerHTML=`<div class="muted">Adivinanza ${riddleIndex+1} de ${riddles.length}</div><div class="riddle-box">${r.q}</div><p><input id="riddleInput" placeholder="Escribe tu respuesta" style="padding:13px;border:1px solid #cbd5e1;border-radius:12px;width:min(100%,420px);font:inherit"></p><button class="primary" onclick="checkRiddle()">Comprobar</button><div class="feedback" id="riddleFeedback"></div>`}
+function checkRiddle(){let r=riddles[riddleIndex],v=$("riddleInput").value.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");if(r.alts.some(a=>v.includes(a.normalize("NFD").replace(/[\u0300-\u036f]/g,"")))){addPoints(10);$("riddleFeedback").textContent="¡Muy bien! +10 ⭐";setTimeout(()=>{riddleIndex++;showRiddle()},1000)}else $("riddleFeedback").textContent="Prueba otra vez. ¡Tú puedes!"}
+function startWho(){whoIndex=0;panel("¿De dónde son?","Reconoce las fotografías reales");showWho()}
+function showWho(){if(whoIndex>=photos.length){$("gameContent").innerHTML="<h3>¡Has reconocido todas las fotografías!</h3><button class='primary' onclick='startWho()'>Volver a jugar</button>";award("Ojo de comparsero");return}let p=photos[whoIndex];$("gameContent").innerHTML=`<div class="photo-card"><div><img src="${p.src}" alt="${p.name}" onerror="this.alt='No se pudo cargar la foto';this.style.background='#dbe4ea'"><div class="muted" style="font-size:.75rem;margin-top:5px">Foto: ${p.credit} · <a href="${p.url}" target="_blank" rel="noopener">fuente</a></div></div><div><div class="muted">Fotografía ${whoIndex+1} de ${photos.length}</div><div class="question">¿Dónde se encuentra esta comparsa?</div><div class="answers" style="grid-template-columns:1fr">${[p.region==="Navarra"?"Navarra":"Cataluña",p.region==="Navarra"?"Cataluña":"Navarra","Cantabria","Comunidad Valenciana"].sort(()=>Math.random()-.5).map(x=>`<button class="answer" onclick="answerWho('${x}')">${x}</button>`).join("")}</div><div id="whoFeedback" class="feedback"></div></div></div>`}
+function answerWho(v){let p=photos[whoIndex],ok=v===p.region;document.querySelectorAll("#gameContent .answer").forEach(b=>{b.disabled=true;if(b.textContent===p.region)b.classList.add("correct");else if(b.textContent===v)b.classList.add("wrong")});$("whoFeedback").textContent=ok?"¡Exacto! +15 ⭐":`La foto corresponde a ${p.place}.`;if(ok)addPoints(15);setTimeout(()=>{whoIndex++;showWho()},1600)}
+function startMemory(){panel("Memory de gigantes","Encuentra las parejas");let deck=[...photos,...photos].map((p,i)=>({...p,id:i,pair:p.name})).sort(()=>Math.random()-.5);let first=null,lock=false,matches=0,moves=0;$("gameContent").innerHTML=`<p class="muted">Pulsa dos cartas para descubrir si son la misma fotografía.</p><div class="memory-grid" id="memoryGrid">${deck.map((p,i)=>`<button class="memory-card" data-i="${i}" aria-label="Carta ${i+1}" onclick="flipMemory(${i})"><span style="font-size:2.2rem">🎭</span></button>`).join("")}</div><p id="memoryStatus" class="feedback">Parejas: 0 / 4 · Intentos: 0</p>`;
+window.memoryState={deck,first:null,lock:false,matches:0,moves:0};}
+function flipMemory(i){let s=window.memoryState;if(!s||s.lock)return;let el=document.querySelectorAll(".memory-card")[i];if(el.classList.contains("revealed")||el.classList.contains("matched"))return;let p=s.deck[i];el.innerHTML=`<img src="${p.src}" alt="${p.name}">`;el.classList.add("revealed");if(s.first===null){s.first=i;return}s.moves++;let a=s.deck[s.first];if(a.pair===p.pair){document.querySelectorAll(".memory-card")[s.first].classList.add("matched");el.classList.add("matched");s.matches++;s.first=null;addPoints(5);if(s.matches===4){award("Memoria gigante");$("memoryStatus").textContent=`¡Todas las parejas! Intentos: ${s.moves}. +20 puntos extra`;addPoints(20)}else $("memoryStatus").textContent=`Parejas: ${s.matches} / 4 · Intentos: ${s.moves}`}else{s.lock=true;let old=s.first;s.first=null;setTimeout(()=>{[old,i].forEach(n=>{let x=document.querySelectorAll(".memory-card")[n];x.innerHTML="🎭";x.classList.remove("revealed")});s.lock=false;$("memoryStatus").textContent=`Parejas: ${s.matches} / 4 · Intentos: ${s.moves}`},950)}}
+const wordList=["GEGANT","GIGANTE","CAPGROS","KILIKI","ZALDIKO","GAITA","BAILE"];
+function startWords(){wordIndex=0;panel("Palabras escondidas","Ordena las letras para descubrir palabras");showWord()}
+function showWord(){if(wordIndex>=wordList.length){$("gameContent").innerHTML="<h3>¡Todas las palabras encontradas!</h3><button class='primary' onclick='startWords()'>Otra partida</button>";award("Maestro de palabras");return}let w=wordList[wordIndex],scr=w.split("").sort(()=>Math.random()-.5).join(" · ");$("gameContent").innerHTML=`<div class="muted">Palabra ${wordIndex+1} de ${wordList.length}</div><div class="question">¿Qué palabra se esconde aquí?</div><div class="riddle-box" style="letter-spacing:.12em">${scr}</div><p><input id="wordInput" placeholder="Escribe la palabra" style="padding:13px;border:1px solid #cbd5e1;border-radius:12px;width:min(100%,350px);font:inherit"></p><button class="primary" onclick="checkWord()">Comprobar</button><div class="feedback" id="wordFeedback"></div>`}
+function checkWord(){let v=$("wordInput").value.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s/g,"");if(v===wordList[wordIndex]){addPoints(5);$("wordFeedback").textContent="¡Palabra encontrada! +5 ⭐";setTimeout(()=>{wordIndex++;showWord()},900)}else $("wordFeedback").textContent="No es esa. ¡Vuelve a intentarlo!"}
+function startSpeed(){if(speedTimer)clearInterval(speedTimer);speedLeft=45;speedPoints=0;let pool=[...questions].sort(()=>Math.random()-.5);let idx=0;panel("Reto relámpago","45 segundos · ¡A por todas!");$("gameContent").innerHTML=`<div class="big-number"><span id="timeLeft">45</span> s</div><div id="speedQuestion"></div><div class="feedback" id="speedFeedback"></div>`;function next(){if(speedLeft<=0||idx>=pool.length){clearInterval(speedTimer);$("speedQuestion").innerHTML=`<h3>¡Tiempo!</h3><p>Has conseguido ${speedPoints} puntos en este reto.</p><button class="primary" onclick="startSpeed()">Repetir</button>`;award("Rayo de la comparsa");return}let q=pool[idx++];$("speedQuestion").innerHTML=`<div class="question">${q.q}</div><div class="answers">${q.a.map((a,i)=>`<button class="answer" onclick="speedAnswer(${i},${q.c})">${a}</button>`).join("")}</div>`}window.speedAnswer=(i,c)=>{if(i===c){speedPoints+=10;addPoints(10);$("speedFeedback").textContent="¡Bien! +10"}else $("speedFeedback").textContent="¡Sigue!";next()};next();speedTimer=setInterval(()=>{speedLeft--;$("timeLeft").textContent=speedLeft;if(speedLeft<=0){clearInterval(speedTimer);$("speedQuestion").innerHTML=`<h3>¡Tiempo terminado!</h3><p>Has sumado ${speedPoints} puntos.</p><button class="primary" onclick="startSpeed()">Repetir</button>`;award("Rayo de la comparsa")}},1000)}
+function startTrueFalse(){let qs=[["Los gigantes suelen ser llevados por una persona porteadora.",true],["En catalán, los cabezudos se llaman capgrossos.",true],["Los zaldikos son un tipo de instrumento musical.",false],["La tradición de gigantes y cabezudos existe en distintas localidades de España.",true],["Todas las comparsas tienen exactamente los mismos personajes.",false]];let i=0;panel("¿Verdadero o falso?","Cinco afirmaciones");function show(){if(i===qs.length){$("gameContent").innerHTML="<h3>¡Reto completado!</h3><button class='primary' onclick='startTrueFalse()'>Repetir</button>";award("Experto en tradición");return}let [q]=qs[i];$("gameContent").innerHTML=`<div class="muted">Afirmación ${i+1} de ${qs.length}</div><div class="question">${q}</div><div class="answers"><button class="answer" onclick="tfAnswer(true)">Verdadero</button><button class="answer" onclick="tfAnswer(false)">Falso</button></div><div class="feedback" id="tfFeedback"></div>`}window.tfAnswer=v=>{let ok=v===qs[i][1];if(ok)addPoints(10);$("tfFeedback").textContent=ok?"¡Correcto! +10 ⭐":"No exactamente. ¡Vamos con la siguiente!";setTimeout(()=>{i++;show()},1000)};show()}
+function showGallery(){panel("Explora las comparsas","Fotografías reales · primeras localidades");$("gameContent").innerHTML=`<div class="photo-gallery">${photos.map(p=>`<figure><img src="${p.src}" alt="${p.name}"><figcaption>${p.name}<br><span class="muted">${p.place}</span><br><a href="${p.url}" target="_blank" rel="noopener">Créditos y licencia</a></figcaption></figure>`).join("")}</div><p class="notice" style="margin-top:18px">Estamos ampliando el archivo. Cantabria y la Comunidad Valenciana aparecen en el mapa de zonas, pero todavía faltan fotografías verificadas para incorporarlas a los retos. No se muestran imágenes inventadas como si fueran comparsas reales.</p>`}
+</script>
+</body>
+</html>
